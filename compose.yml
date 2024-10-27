@@ -1,0 +1,5 @@
+services:
+  webapp:
+    build:
+      context: ./projects/webapp
+      dockerfile: Dockerfile.Webapp

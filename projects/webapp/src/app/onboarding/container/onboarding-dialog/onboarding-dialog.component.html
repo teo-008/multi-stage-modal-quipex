@@ -1,0 +1,32 @@
+<section mat-dialog-title class="dialog-header">
+  <h2>{{ currentTitle() }}</h2>
+  <button mat-dialog-close>
+    <mat-icon
+      aria-hidden="false"
+      aria-label="Close"
+      fontIcon="close"
+    ></mat-icon>
+  </button>
+</section>
+
+<section mat-dialog-content>
+  <stage-getting-started
+    [class.hidden]="currentStage() !== stage.GettingStarted"
+    (nextStep)="onNextStep()"
+  ></stage-getting-started>
+  <stage-add-building
+    [class.hidden]="currentStage() !== stage.AddBuilding"
+    (previousStep)="onPreviousStep()"
+    (nextStep)="onNextStep()"
+  ></stage-add-building>
+  <stage-add-building-confirmation
+    [class.hidden]="currentStage() !== stage.AddBuildingConfirmation"
+    (previousStep)="onPreviousStep()"
+    (nextStep)="onNextStep()"
+  ></stage-add-building-confirmation>
+</section>
+
+<section mat-dialog-actions>
+  <button mat-button mat-dialog-close>I'll do this later</button>
+  <button mat-button mat-dialog-close>Ok</button>
+</section>

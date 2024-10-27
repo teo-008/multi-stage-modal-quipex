@@ -1,0 +1,19 @@
+name: webapp-dev
+
+services:
+  webapp:
+    extends:
+      file: compose.yml
+      service: webapp
+    build:
+      target: devcontainer
+    container_name: webapp-dev
+    ports:
+      - "4200:4200"
+    volumes:
+      - ".:/workspace:cached"
+      - "webapp-node_modules:/workspace/projects/webapp/node_modules"
+    command: "sleep infinity"
+
+volumes:
+  webapp-node_modules:

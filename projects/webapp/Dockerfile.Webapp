@@ -1,0 +1,23 @@
+# Base image used to create the final image
+FROM node:22-slim AS base
+
+RUN apt-get update 
+
+FROM base AS dev
+
+RUN apt-get install -y \ 
+    git nano curl gh && \
+    apt-get clean
+# NOTE: occasional freeze on `npm install`, doing this after container is built resolves issue ???
+# RUN npm i -g @angular/cli --no-audit --verbose
+
+# WORKDIR /src
+# NOTE: occasional freeze on `npm install`, doing this after container is built resolves issue ???
+# COPY package*.json ./
+# RUN npm ci --no-audit --verbose && npm cache clean --force
+# COPY . .
+
+FROM dev AS devcontainer
+
+WORKDIR /workspace/projects/webapp
+EXPOSE 4200

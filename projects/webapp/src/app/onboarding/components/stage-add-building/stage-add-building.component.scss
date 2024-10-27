@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+.flex {
+  display: flex;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}

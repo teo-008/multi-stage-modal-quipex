@@ -1,0 +1,93 @@
+<div class="flex">
+  <section>
+    <h3>Add a building to your portfolio</h3>
+    <p>
+      Follow the prompts to create your building manual. The more detail you
+      provide, the more useful your manual will be.
+    </p>
+  </section>
+
+  <section>
+    <input type="address" placeholder="Start typing building address" />
+    <button type="button" (click)="switchToManualMode()">Enter manually</button>
+
+    <form
+      [formGroup]="addressForm"
+      (ngSubmit)="onSubmit()"
+      [class.hidden]="!manualMode()"
+    >
+      <mat-form-field
+        appearance="outline"
+        floatLabel="always"
+        [hideRequiredMarker]="true"
+      >
+        <mat-label>Address line 1</mat-label>
+        <input matInput formControlName="address1" />
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="outline"
+        floatLabel="always"
+        [hideRequiredMarker]="true"
+      >
+        <mat-label>Address line 2 (optional)</mat-label>
+        <input matInput formControlName="address2" />
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="outline"
+        floatLabel="always"
+        [hideRequiredMarker]="true"
+      >
+        <mat-label>Suburb</mat-label>
+        <input matInput formControlName="suburb" />
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="outline"
+        floatLabel="always"
+        [hideRequiredMarker]="true"
+      >
+        <mat-label>State</mat-label>
+        <mat-select formControlName="state">
+          <mat-option value="nsw">NSW</mat-option>
+          <mat-option value="vic">VIC</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="outline"
+        floatLabel="always"
+        [hideRequiredMarker]="true"
+      >
+        <mat-label>Postcode</mat-label>
+        <input matInput formControlName="postcode" />
+      </mat-form-field>
+    </form>
+  </section>
+</div>
+
+<!-- <form [formGroup]="frmStepX" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="fill">
+    <label for="name">Name:</label>
+    <input matInput id="name" formControlName="name" />
+    <mat-error
+      *ngIf="
+        frmStepX.controls['name'].invalid && frmStepX.controls['name'].touched
+      "
+    >
+      <small *ngIf="frmStepX.controls.name.errors?.['required']"
+        >This field is required.</small
+      >
+    </mat-error>
+  </mat-form-field>
+
+  <button mat-raised-button type="submit" [disabled]="frmStepX?.invalid">
+    Submit
+  </button>
+</form> -->
+
+<section class="actions">
+  <button type="button" (click)="goBack()">Back</button>
+  <button type="button" (click)="onSubmit()">Next</button>
+</section>

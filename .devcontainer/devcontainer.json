@@ -1,0 +1,35 @@
+{
+  "name": "Web App",
+  "dockerComposeFile": "../compose.devcontainer.yml",
+  "service": "webapp",
+  "workspaceFolder": "/workspace/projects/webapp",
+  "forwardPorts": [4200],
+  "portsAttributes": {
+    "4200": {
+      "protocol": "http"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "waderyan.gitblame",
+        "mhutchie.git-graph",
+        "donjayamanne.githistory",
+        "ambooth.git-rename",
+        "codezombiech.gitignore",
+        "eamodio.gitlens",
+        "esbenp.prettier-vscode",
+        "EditorConfig.EditorConfig",
+        "dbaeumer.vscode-eslint",
+        "stylelint.vscode-stylelint",
+        "DavidAnson.vscode-markdownlint",
+        "mattpocock.ts-error-translator",
+        "csstools.postcss",
+        "ms-azuretools.vscode-docker",
+        "christian-kohler.path-intellisense",
+        "cyrilletuzi.angular-schematics",
+        "angular.ng-template"
+      ]
+    }
+  }
+}
