@@ -3,9 +3,15 @@
   "dockerComposeFile": "../compose.devcontainer.yml",
   "service": "webapp",
   "workspaceFolder": "/workspace/projects/webapp",
-  "forwardPorts": [4200],
+  "forwardPorts": [4200, 8020, 9876],
   "portsAttributes": {
     "4200": {
+      "protocol": "http"
+    },
+    "8020": {
+      "protocol": "http"
+    },
+    "9876": {
       "protocol": "http"
     }
   },
@@ -28,7 +34,8 @@
         "ms-azuretools.vscode-docker",
         "christian-kohler.path-intellisense",
         "cyrilletuzi.angular-schematics",
-        "angular.ng-template"
+        "angular.ng-template",
+        "bradlc.vscode-tailwindcss"
       ]
     }
   }

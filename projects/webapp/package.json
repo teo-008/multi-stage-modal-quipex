@@ -6,6 +6,7 @@
     "start": "ng serve --host 0.0.0.0",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "serve-build": "lite-server -c ./bs-config.json",
     "test": "ng test",
     "lint": "ng lint"
   },
@@ -31,6 +32,7 @@
     "@angular/compiler-cli": "^18.2.0",
     "@types/jasmine": "~5.1.0",
     "angular-eslint": "18.4.0",
+    "autoprefixer": "^10.4.20",
     "eslint": "^9.13.0",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",
@@ -38,7 +40,10 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "lite-server": "^2.6.1",
+    "postcss": "^8.4.47",
     "prettier": "3.3.3",
+    "tailwindcss": "^3.4.14",
     "typescript": "~5.5.2",
     "typescript-eslint": "8.10.0"
   }

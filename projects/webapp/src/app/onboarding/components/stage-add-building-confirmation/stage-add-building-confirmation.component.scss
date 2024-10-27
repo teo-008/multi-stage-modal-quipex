@@ -1,7 +1,14 @@
 :host {
-  display: block;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  min-height: 100%;
 }
 
-.block {
-  display: block;
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.content-width {
+  max-width: min(500px, 100%);
 }

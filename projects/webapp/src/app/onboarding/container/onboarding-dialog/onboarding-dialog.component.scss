@@ -1,11 +1,24 @@
 :host {
-  display: block;
+  --mat-dialog-headline-padding: 24px 29px;
+  --mat-dialog-with-actions-content-padding: 24px 29px;
+  --mat-dialog-actions-padding: 14px 29px 22px;
+
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: min(623px, 80vh);
+  max-height: min(623px, 80vh);
+  max-width: min(860px, calc(100vw - 164px));
+  width: 860px;
 }
 
 .dialog-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  &::before {
+    content: unset;
+  }
 }
 
 .hidden {

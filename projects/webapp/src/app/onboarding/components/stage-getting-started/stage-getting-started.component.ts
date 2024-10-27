@@ -9,12 +9,9 @@ import { Step } from '../stage';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StageGettingStartedComponent implements Step {
-  previousStep = output<void>();
   nextStep = output<void>();
 
-  goBack() {}
-
-  goNext() {
+  protected handleNext() {
     this.nextStep.emit();
   }
 }

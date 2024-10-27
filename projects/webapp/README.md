@@ -1,27 +1,42 @@
-# TestApp
+# Multistage modal project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.10.
+Source code is located in the `projects/webapp` directory. Set that as your working directory when running any of the following commands.
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Run `npm run dev` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `npm run test` to execute the unit tests via Karma/Jasmine.
 
-## Running end-to-end tests
+## Serve production build locally
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+After running the build, run `npm run build:serve` for a local production server. Navigate to `http://localhost:8020`.
 
-## Further help
+## Out-of-scope
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Handling of 'save-and-close-dialog' button
+- Auto parsing of single-field address to its multiple parts
+
+## How to integrate application JS with HTML?
+
+The HTML page needs to have an element with id="root".
+
+```html
+<div id="root"></div>
+```
+
+This will allow for the application script to bootstrap itself at this location.
+
+Additionally, HTML page needs to have a button input with id="dialog-root".
+
+```html
+<button id="dialog-root"></button>
+```
+
+This is the identifier that is used to add click event listeners to the element, which will subsequenly open the dialog.

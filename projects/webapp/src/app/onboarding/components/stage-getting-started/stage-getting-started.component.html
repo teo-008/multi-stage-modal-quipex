@@ -1,15 +1,44 @@
-<h3>Welcome to Quipex</h3>
+<div class="content-width">
+  <img
+    src="logo-dark.svg"
+    alt="Quipex Logo"
+    width="117px"
+    height="35px"
+    class="tw-pb-5 tw-pt-8 md:tw-pt-[72px]"
+  />
+  <h3
+    class="tw-font-semibold tw-text-3xl tw-tracking-3xl tw-text-emphasis tw-leading-[42px] tw-pb-6"
+  >
+    Welcome to Quipex
+  </h3>
 
-<p>
-  Let's kickstart your journey with Quipex by creating your first building
-  manual.
-</p>
-<p>Simply follow the prompts to complete your setup:</p>
+  <p class="tw-text-base tw-tracking-base tw-leading-[25px]">
+    Let's kickstart your journey with Quipex by creating your first building
+    manual.
+  </p>
+  <p class="tw-text-base tw-tracking-base tw-leading-[25px] tw-pb-6">
+    Simply follow the prompts to complete your setup:
+  </p>
 
-<ul>
-  <li>Add a building to your portfolio</li>
-  <li>Add documents and building details</li>
-  <li>Set up your ESM schedule</li>
-</ul>
+  <ul>
+    <li class="tw-text-base tw-tracking-base tw-leading-[36px]">
+      Add a building to your portfolio
+    </li>
+    <li class="tw-text-base tw-tracking-base tw-leading-[36px]">
+      Add documents and building details
+    </li>
+    <li class="tw-text-base tw-tracking-base tw-leading-[36px]">
+      Set up your ESM schedule
+    </li>
+  </ul>
+</div>
 
-<button type="button" (click)="goNext()">Next</button>
+<section class="actions">
+  <button
+    type="button"
+    (click)="handleNext()"
+    class="tw-h-10 tw-bg-accent tw-text-white tw-min-w-[106px] tw-font-medium tw-text-sm tw-tracking-sm tw-leading-[17px] tw-rounded"
+  >
+    Next
+  </button>
+</section>

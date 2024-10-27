@@ -1,32 +1,91 @@
-<section mat-dialog-title class="dialog-header">
-  <h2>{{ currentTitle() }}</h2>
+<section mat-dialog-title class="dialog-header tw-py-6 tw-bg-emphasis">
+  <h2
+    data-testid="onboarding-dialog-heading"
+    class="tw-text-base tw-font-semibold tw-text-white tw-tracking-base"
+  >
+    {{ currentStage().title }}
+  </h2>
   <button mat-dialog-close>
     <mat-icon
       aria-hidden="false"
       aria-label="Close"
       fontIcon="close"
+      class="tw-text-white"
     ></mat-icon>
   </button>
 </section>
 
 <section mat-dialog-content>
   <stage-getting-started
-    [class.hidden]="currentStage() !== stage.GettingStarted"
+    [class.hidden]="currentStageId() !== stage.GettingStarted"
     (nextStep)="onNextStep()"
   ></stage-getting-started>
   <stage-add-building
-    [class.hidden]="currentStage() !== stage.AddBuilding"
+    [class.hidden]="currentStageId() !== stage.AddBuilding"
     (previousStep)="onPreviousStep()"
-    (nextStep)="onNextStep()"
+    (nextStep)="onNextStep($event)"
   ></stage-add-building>
   <stage-add-building-confirmation
-    [class.hidden]="currentStage() !== stage.AddBuildingConfirmation"
+    [class.hidden]="currentStageId() !== stage.AddBuildingConfirmation"
     (previousStep)="onPreviousStep()"
     (nextStep)="onNextStep()"
+    [buildingName]="buildingName()"
   ></stage-add-building-confirmation>
 </section>
 
-<section mat-dialog-actions>
-  <button mat-button mat-dialog-close>I'll do this later</button>
-  <button mat-button mat-dialog-close>Ok</button>
+<section
+  mat-dialog-actions
+  class="!tw-border-t-1 !tw-border-border !tw-border-solid tw-flex !tw-justify-end"
+>
+  @switch (currentStage().options.exit) {
+    @case (exitOptions.Later) {
+      <button
+        mat-button
+        (click)="handleLater()"
+        class="!tw-rounded !tw-px-4 !tw-h-10 !tw-border !tw-border-border !tw-border-solid"
+      >
+        <mat-icon
+          aria-hidden="true"
+          fontIcon="last_page"
+          class="tw-text-accent"
+        ></mat-icon>
+        <span
+          class="!tw-min-w-[106px] !tw-font-medium !tw-text-sm !tw-tracking-sm tw-leading-[17px]"
+          >I'll do this later</span
+        >
+      </button>
+    }
+    @case (exitOptions.Save) {
+      <button
+        mat-button
+        (click)="handleCancel()"
+        class="!tw-min-w-[106px] !tw-rounded !tw-px-4 !tw-h-10 !tw-border !tw-border-border !tw-border-solid"
+      >
+        <mat-icon
+          aria-hidden="true"
+          fontIcon="close"
+          class="tw-text-accent"
+        ></mat-icon>
+        <span
+          class="!tw-font-medium !tw-text-sm !tw-tracking-sm tw-leading-[17px]"
+          >Cancel</span
+        >
+      </button>
+      <button
+        mat-button
+        (click)="handleSave()"
+        class="!tw-min-w-[106px] !tw-rounded !tw-px-4 !tw-h-10 !tw-border !tw-border-border !tw-border-solid"
+      >
+        <mat-icon
+          aria-hidden="true"
+          fontIcon="check"
+          class="tw-text-accent"
+        ></mat-icon>
+        <span
+          class="!tw-font-medium !tw-text-sm !tw-tracking-sm tw-leading-[17px]"
+          >Save</span
+        >
+      </button>
+    }
+  }
 </section>

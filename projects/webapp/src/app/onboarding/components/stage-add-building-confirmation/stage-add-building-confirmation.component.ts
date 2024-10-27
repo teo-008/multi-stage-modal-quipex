@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  output,
+} from '@angular/core';
 import { Step } from '../stage';
 
 @Component({
@@ -9,14 +14,10 @@ import { Step } from '../stage';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StageAddBuildingConfirmationComponent implements Step {
-  previousStep = output<void>();
+  buildingName = input.required<string>();
   nextStep = output<void>();
 
-  goBack() {
-    this.previousStep.emit();
-  }
-
-  goNext() {
+  protected handleNext() {
     this.nextStep.emit();
   }
 }

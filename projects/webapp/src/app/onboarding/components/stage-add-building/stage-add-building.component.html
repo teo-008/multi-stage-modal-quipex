@@ -1,34 +1,79 @@
-<div class="flex">
+@let address1 = addressForm.controls.address1;
+@let suburb = addressForm.controls.suburb;
+@let state = addressForm.controls.state;
+@let postcode = addressForm.controls.postcode;
+
+<div
+  class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-10 md:tw-gap-[116px] md:tw-pt-[37px]"
+>
   <section>
-    <h3>Add a building to your portfolio</h3>
-    <p>
+    <h3
+      class="tw-text-emphasis tw-font-semibold tw-text-xl tw-tracking-xl tw-leading-[24px] tw-pb-[13px]"
+    >
+      Add a building to your portfolio
+    </h3>
+    <p
+      class="tw-text-subdued tw-text-xs tw-tracking-xs tw-leading-[19px] tw-mr-4"
+    >
       Follow the prompts to create your building manual. The more detail you
       provide, the more useful your manual will be.
     </p>
   </section>
 
   <section>
-    <input type="address" placeholder="Start typing building address" />
-    <button type="button" (click)="switchToManualMode()">Enter manually</button>
-
-    <form
-      [formGroup]="addressForm"
-      (ngSubmit)="onSubmit()"
-      [class.hidden]="!manualMode()"
+    <mat-form-field
+      appearance="outline"
+      floatLabel="always"
+      [hideRequiredMarker]="true"
+      subscriptSizing="dynamic"
     >
+      <mat-icon matPrefix>search</mat-icon>
+      <mat-label>Address</mat-label>
+      <input matInput placeholder="Start typing building address..." />
+    </mat-form-field>
+
+    <div class="tw-block tw-mt-4 tw-mb-8">
+      <button
+        type="button"
+        mat-button
+        (click)="switchToManualMode()"
+        class="!tw-text-emphasis !tw-font-medium !tw-text-2xs !tw-tracking-2xs !tw-leading-[15px] !tw-underline !tw-underline-offset-2"
+        data-testid="onboarding-dialog-manual-mode"
+      >
+        Enter manually
+      </button>
+    </div>
+
+    <form [formGroup]="addressForm" [class.hidden]="!manualMode()">
       <mat-form-field
         appearance="outline"
         floatLabel="always"
         [hideRequiredMarker]="true"
+        class="!tw-mt-6 !tw-pt-0"
+        subscriptSizing="dynamic"
       >
         <mat-label>Address line 1</mat-label>
         <input matInput formControlName="address1" />
+        @if (
+          address1.errors &&
+          (address1.touched || address1.dirty) &&
+          address1.hasError('maxlength')
+        ) {
+          <mat-error>Address line 1 is too long</mat-error>
+        } @else if (
+          address1.errors &&
+          (address1.touched || address1.dirty) &&
+          address1.hasError('required')
+        ) {
+          <mat-error>Address line 1 is required</mat-error>
+        }
       </mat-form-field>
 
       <mat-form-field
         appearance="outline"
         floatLabel="always"
         [hideRequiredMarker]="true"
+        subscriptSizing="dynamic"
       >
         <mat-label>Address line 2 (optional)</mat-label>
         <input matInput formControlName="address2" />
@@ -38,56 +83,83 @@
         appearance="outline"
         floatLabel="always"
         [hideRequiredMarker]="true"
+        subscriptSizing="dynamic"
       >
         <mat-label>Suburb</mat-label>
         <input matInput formControlName="suburb" />
+        @if (
+          suburb.errors &&
+          (suburb.touched || suburb.dirty) &&
+          suburb.hasError('maxlength')
+        ) {
+          <mat-error>Suburb is too long</mat-error>
+        } @else if (
+          suburb.errors &&
+          (suburb.touched || suburb.dirty) &&
+          suburb.hasError('required')
+        ) {
+          <mat-error>Suburb is required</mat-error>
+        }
       </mat-form-field>
 
       <mat-form-field
         appearance="outline"
         floatLabel="always"
         [hideRequiredMarker]="true"
+        subscriptSizing="dynamic"
       >
         <mat-label>State</mat-label>
-        <mat-select formControlName="state">
+        <mat-select formControlName="state" placeholder="Please select">
           <mat-option value="nsw">NSW</mat-option>
           <mat-option value="vic">VIC</mat-option>
         </mat-select>
+        @if (
+          state.errors &&
+          (state.touched || state.dirty) &&
+          state.hasError('required')
+        ) {
+          <mat-error>Suburb is required</mat-error>
+        }
       </mat-form-field>
 
       <mat-form-field
         appearance="outline"
         floatLabel="always"
         [hideRequiredMarker]="true"
+        subscriptSizing="dynamic"
       >
         <mat-label>Postcode</mat-label>
         <input matInput formControlName="postcode" />
+        @if (postcode.errors && (postcode.touched || postcode.dirty)) {
+          <mat-error>Enter a valid postcode</mat-error>
+        }
       </mat-form-field>
     </form>
   </section>
 </div>
 
-<!-- <form [formGroup]="frmStepX" (ngSubmit)="onSubmit()">
-  <mat-form-field appearance="fill">
-    <label for="name">Name:</label>
-    <input matInput id="name" formControlName="name" />
-    <mat-error
-      *ngIf="
-        frmStepX.controls['name'].invalid && frmStepX.controls['name'].touched
-      "
-    >
-      <small *ngIf="frmStepX.controls.name.errors?.['required']"
-        >This field is required.</small
-      >
-    </mat-error>
-  </mat-form-field>
-
-  <button mat-raised-button type="submit" [disabled]="frmStepX?.invalid">
-    Submit
-  </button>
-</form> -->
-
 <section class="actions">
-  <button type="button" (click)="goBack()">Back</button>
-  <button type="button" (click)="onSubmit()">Next</button>
+  <button
+    mat-button
+    (click)="handlePrevious()"
+    class="!tw-h-10 tw-flex tw-items-center"
+  >
+    <mat-icon
+      aria-hidden="true"
+      fontIcon="chevron_left"
+      class="tw-text-accent"
+    ></mat-icon>
+    <span
+      class="tw-text-emphasis tw-font-medium tw-text-2xs tw-tracking-2xs tw-leading-[15px] tw-underline tw-underline-offset-2"
+      >Back</span
+    >
+  </button>
+  <button
+    type="button"
+    (click)="handleSubmit()"
+    data-testid="onboarding-dialog-next"
+    class="tw-h-10 tw-bg-accent tw-text-white tw-min-w-[106px] tw-font-medium tw-text-sm tw-tracking-sm tw-leading-[17px] tw-rounded"
+  >
+    Next
+  </button>
 </section>

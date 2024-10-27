@@ -1,0 +1,5 @@
+{
+  "port": 8020,
+  "files": ["./dist/test-app/browser/**/*.{html,ico,svg,css,js}"],
+  "server": { "baseDir": "./dist/test-app/browser" }
+}

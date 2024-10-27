@@ -1,14 +1,33 @@
-<!-- TODO:MC -->
-<h3>
-  <span class="block">!!! Building Name Goes Here</span>
-  <span class="block">has been added to your portfolio</span>
-</h3>
+<div class="content-width">
+  <h3
+    class="tw-font-semibold tw-text-2xl tw-tracking-2xl tw-leading-[36px] tw-pb-[18px] tw-pt-[106px]"
+  >
+    <span
+      class="tw-block tw-text-accent"
+      data-testid="onboarding-dialog-building"
+      >{{ buildingName() }}</span
+    >
+    <span class="tw-block tw-text-emphasis"
+      >has been added to your portfolio</span
+    >
+  </h3>
 
-<p>
-  Quipex will auto-generate your ESM schedules based on the uploaded
-  documentation. All you need to do is review, adjust where necessary, and
-  publish.
-</p>
-<p>Click next to review and publish your ESM schedules now.</p>
+  <p class="tw-text-base tw-tracking-base tw-leading-[25px] tw-pb-6">
+    Quipex will auto-generate your ESM schedules based on the uploaded
+    documentation. All you need to do is review, adjust where necessary, and
+    publish.
+  </p>
+  <p class="tw-text-base tw-tracking-base tw-leading-[25px]">
+    Click next to review and publish your ESM schedules now.
+  </p>
+</div>
 
-<button type="button" (click)="goNext()">Next</button>
+<section class="actions">
+  <button
+    type="button"
+    (click)="handleNext()"
+    class="tw-h-10 tw-bg-accent tw-text-white tw-min-w-[106px] tw-font-medium tw-text-sm tw-tracking-sm tw-leading-[17px] tw-rounded"
+  >
+    Next
+  </button>
+</section>

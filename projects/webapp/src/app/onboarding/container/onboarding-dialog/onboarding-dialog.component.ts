@@ -6,115 +6,150 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MatDialogTitle,
   MatDialogContent,
   MatDialogActions,
-  MatDialogClose,
   MatDialogRef,
+  MatDialogClose,
 } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatStepperModule } from '@angular/material/stepper';
 import { MatIconModule } from '@angular/material/icon';
 import {
   StageGettingStartedComponent,
   StageAddBuildingComponent,
   StageAddBuildingConfirmationComponent,
 } from '../../components';
-
-const STAGE = {
-  GettingStarted: 'GettingStarted',
-  AddBuilding: 'AddBuilding',
-  AddBuildingConfirmation: 'AddBuildingConfirmation',
-} as const;
-
-type Stage = keyof typeof STAGE;
-
-const STAGES = {
-  [STAGE.GettingStarted]: {
-    title: 'Getting started',
-  },
-  [STAGE.AddBuilding]: {
-    title: 'Create new building manual',
-  },
-  [STAGE.AddBuildingConfirmation]: {
-    title: 'Create new building manual',
-  },
-} as const;
-
-interface Machine<T extends string> {
-  initial: T;
-  states: Record<T, { previous?: T; next?: T }>;
-}
+import {
+  EXIT_OPTIONS,
+  Machine,
+  MachineState,
+  NON_STAGE,
+  Stage,
+  STAGE,
+} from './onboarding-dialog';
 
 @Component({
-  selector: 'dialog-overview-example-dialog',
+  selector: 'onboarding-dialog',
   templateUrl: './onboarding-dialog.component.html',
   styleUrl: './onboarding-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     CommonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
     MatButtonModule,
     MatDialogTitle,
     MatDialogContent,
-    MatDialogActions,
     MatDialogClose,
-    MatStepperModule,
+    MatDialogActions,
     MatIconModule,
     StageGettingStartedComponent,
     StageAddBuildingComponent,
-    StageAddBuildingConfirmationComponent,
     StageAddBuildingConfirmationComponent,
   ],
 })
 export class OnboardingDialogComponent {
   readonly stage = STAGE;
+  readonly exitOptions = EXIT_OPTIONS;
   readonly dialogRef = inject(MatDialogRef<OnboardingDialogComponent>);
 
-  // state machines
   private machine: Machine<Stage> = {
     initial: STAGE.GettingStarted,
     states: {
       [STAGE.GettingStarted]: {
-        next: STAGE.AddBuilding,
+        title: 'Getting started',
+        on: {
+          next: STAGE.AddBuilding,
+        },
+        options: {
+          exit: EXIT_OPTIONS.Later,
+        },
       },
       [STAGE.AddBuilding]: {
-        previous: STAGE.GettingStarted,
-        next: STAGE.AddBuildingConfirmation,
+        title: 'Create new building manual',
+        on: {
+          previous: STAGE.GettingStarted,
+          next: STAGE.AddBuildingConfirmation,
+        },
+        options: {
+          exit: EXIT_OPTIONS.Save,
+        },
       },
       [STAGE.AddBuildingConfirmation]: {
-        previous: STAGE.AddBuilding,
-        next: STAGE.AddBuildingConfirmation,
+        title: 'Create new building manual',
+        on: {
+          previous: STAGE.AddBuilding,
+          next: NON_STAGE.End,
+        },
+        options: {
+          exit: EXIT_OPTIONS.Later,
+        },
       },
     },
-  };
+  } as const;
 
-  currentStage = signal<Stage>(this.machine.initial);
+  currentStageId = signal<Stage>(this.machine.initial);
+  currentStage = computed<MachineState<Stage>>(
+    () => this.machine.states[this.currentStageId()]
+  );
 
-  currentTitle = computed<string>(() => STAGES[this.currentStage()].title);
+  /** newly created building name */
+  buildingName = signal<string>('');
 
   onPreviousStep() {
-    const targetStep = this.machine.states[this.currentStage()].previous;
-    targetStep && this.currentStage.set(targetStep);
+    const targetStep = this.machine.states[this.currentStageId()].on.previous;
+    targetStep && this.currentStageId.set(targetStep);
   }
 
-  onNextStep() {
-    const targetStep = this.machine.states[this.currentStage()].next;
-    targetStep && this.currentStage.set(targetStep);
+  onNextStep(event?: unknown) {
+    const targetStep = this.machine.states[this.currentStageId()].on.next;
+
+    if (!targetStep) return;
+
+    if (targetStep === STAGE.AddBuildingConfirmation) {
+      const buildingName = typeof event === 'string' ? event : '';
+      this.buildingName.set(buildingName);
+    }
+
+    if (targetStep === NON_STAGE.End) {
+      console.log(`onboarding complete with ${this.buildingName()}`);
+      this.dialogRef.close();
+      return;
+    }
+
+    this.currentStageId.set(targetStep);
   }
 
-  onSave(): void {
+  handleSave(): void {
+    const canSave =
+      this.machine.states[this.currentStageId()].options.exit ===
+      EXIT_OPTIONS.Save;
+
+    if (!canSave) return;
+
+    console.log('save state and close');
     this.dialogRef.close();
   }
 
-  onNoClick(): void {
+  handleCancel(): void {
+    const canSave =
+      this.machine.states[this.currentStageId()].options.exit ===
+      EXIT_OPTIONS.Save;
+
+    if (!canSave) return;
+
+    console.log('cancel and close');
+    this.dialogRef.close();
+  }
+
+  handleLater(): void {
+    const canDoLater =
+      this.machine.states[this.currentStageId()].options.exit ===
+      EXIT_OPTIONS.Later;
+
+    if (!canDoLater) return;
+
+    console.log('close and complete later');
     this.dialogRef.close();
   }
 }

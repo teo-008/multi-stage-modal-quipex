@@ -1,5 +1,27 @@
 :host {
-  display: block;
+  --mdc-outlined-text-field-input-text-color: #103441;
+  --mdc-outlined-text-field-caret-color: #103441;
+  --mat-select-enabled-trigger-text-color: #103441;
+  --mat-mdc-form-field-floating-label-scale: 1.25;
+  --mat-form-field-outlined-label-text-populated-size: 12px;
+  --mdc-outlined-text-field-outline-width: 1px;
+  --mdc-outlined-text-field-outline-color: #d2dadf;
+  --mdc-outlined-text-field-container-shape: 5px;
+  --mdc-outlined-text-field-error-outline-color: #ed6e75;
+  --mat-form-field-error-text-color: #ed6e75;
+  --mdc-outlined-text-field-hover-outline-color: #d2dadf;
+  --mdc-outlined-text-field-focus-outline-color: #01add8;
+  --mdc-outlined-text-field-error-hover-outline-color: #ed6e75;
+  --mdc-outlined-text-field-error-focus-outline-color: #01add8;
+  --mat-select-enabled-arrow-color: #01add8;
+  --mat-select-invalid-arrow-color: #01add8;
+  --mat-form-field-subscript-text-size: 12px;
+  --mat-form-field-subscript-line-height: 15px;
+  --mat-form-field-subscript-text-tracking: -0.12px;
+
+  display: grid;
+  grid-template-rows: 1fr auto;
+  min-height: 100%;
 }
 
 .hidden {
@@ -13,4 +35,72 @@
 .actions {
   display: flex;
   justify-content: space-between;
+  padding-top: 16px;
+}
+
+.mat-mdc-form-field {
+  padding-top: 24px;
+  margin-top: 24px;
+  width: 100%;
+}
+
+input.mdc-text-field__input,
+:host ::ng-deep .mat-mdc-select-trigger {
+  font-size: 13px;
+  height: 48px;
+  line-height: 16px;
+  padding: 16px 18px;
+}
+
+input.mdc-text-field__input {
+  .mat-mdc-form-field-has-icon-prefix & {
+    padding-left: 0;
+  }
+
+  &::placeholder {
+    opacity: 0.37;
+  }
+}
+
+:host ::ng-deep {
+  mat-select {
+    .mat-mdc-select-placeholder {
+      opacity: 0.37;
+    }
+  }
+
+  mat-form-field {
+    .mdc-text-field--outlined {
+      padding: 0;
+    }
+
+    label.mdc-floating-label {
+      max-width: 200%;
+      transform: none !important;
+      line-height: 15px;
+      letter-spacing: -0.12px;
+      display: block;
+      position: relative;
+      left: 0;
+    }
+
+    .mdc-notched-outline.mdc-notched-outline--notched .mat-mdc-notch-piece {
+      border-width: 1px;
+
+      &.mdc-notched-outline__notch {
+        position: absolute;
+        bottom: calc(100% + 10px);
+        height: auto;
+        border: 0;
+        width: auto !important;
+        padding: 0;
+        left: 0;
+      }
+    }
+
+    .mat-mdc-form-field-hint-wrapper,
+    .mat-mdc-form-field-error-wrapper {
+      padding: 0;
+    }
+  }
 }

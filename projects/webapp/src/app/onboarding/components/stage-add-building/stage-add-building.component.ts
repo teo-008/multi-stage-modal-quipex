@@ -8,9 +8,11 @@ import {
 import { Step } from '../stage';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule, MatPrefix } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { Address } from './stage-add-building';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'stage-add-building',
@@ -24,37 +26,39 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatIconModule,
+    MatPrefix,
   ],
 })
-export class StageAddBuildingComponent implements Step {
+export class StageAddBuildingComponent implements Step<string> {
   /** toggle to enter address manually */
   manualMode = signal<boolean>(false);
 
   previousStep = output<void>();
-  nextStep = output<void>();
+  nextStep = output<string>();
 
   private _fb = inject(FormBuilder);
   addressForm = this._fb.nonNullable.group({
-    address1: ['', [Validators.required, Validators.maxLength(255)]],
-    address2: ['', Validators.maxLength(255)],
-    suburb: ['', [Validators.required, Validators.maxLength(70)]],
+    address1: ['', [Validators.required, Validators.maxLength(100)]],
+    address2: ['', Validators.maxLength(100)],
+    suburb: ['', [Validators.required, Validators.maxLength(100)]],
     state: ['', Validators.required],
-    postcode: ['', [Validators.required, Validators.maxLength(4)]],
+    postcode: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(4),
+        Validators.pattern('^[0-9]*$'),
+      ],
+    ],
   });
 
-  goBack() {
-    this.previousStep.emit();
-  }
-
-  goNext() {
-    this.nextStep.emit();
-  }
-
-  switchToManualMode() {
+  protected switchToManualMode() {
     this.manualMode.set(true);
   }
 
-  onSubmit() {
+  protected handleSubmit() {
     if (!this.addressForm.valid) {
       this.addressForm.markAllAsTouched();
       this.addressForm.markAsDirty();
@@ -62,7 +66,18 @@ export class StageAddBuildingComponent implements Step {
       return;
     }
 
-    console.log('Form submitted with data:', this.addressForm.value);
-    this.goNext();
+    const formValue: Address = this.addressForm.getRawValue();
+    const buildingName = this._formatBuildingName(formValue);
+
+    this.nextStep.emit(buildingName);
+  }
+
+  protected handlePrevious() {
+    this.previousStep.emit();
+  }
+
+  private _formatBuildingName(formValue: Address): string {
+    const { address1, suburb } = formValue;
+    return `${address1} ${suburb}`;
   }
 }
